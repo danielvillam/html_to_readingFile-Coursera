@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML → Markdown Converter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="site-header">
+        <h1 class="site-title">HTML → Markdown Converter</h1>
+        <p class="site-subtitle">
+          Pega el HTML de un artículo de Coursera y descárgalo como archivo
+          <code>.md</code>
+        </p>
+      </header>
+
+      <main class="main-content">
+        <!-- Input section -->
+        <section class="panel input-panel">
+          <label class="panel-label" for="html-input">
+            Entrada HTML
+          </label>
+          <textarea
+            id="html-input"
+            class="text-area"
+            placeholder="Pega aquí el HTML del artículo..."
+            spellcheck="false"
+          ></textarea>
+          <div class="input-actions">
+            <button id="clear-btn" class="btn btn-secondary" type="button">
+              Limpiar
+            </button>
+            <button id="convert-btn" class="btn btn-primary" type="button">
+              Convertir
+            </button>
+          </div>
+        </section>
+
+        <!-- Output section -->
+        <section class="panel output-panel">
+          <label class="panel-label" for="md-output">
+            Vista previa Markdown
+          </label>
+          <textarea
+            id="md-output"
+            class="text-area"
+            placeholder="El Markdown generado aparecerá aquí..."
+            readonly
+            spellcheck="false"
+          ></textarea>
+          <div class="output-actions">
+            <span id="output-filename" class="filename-label"></span>
+            <button
+              id="download-btn"
+              class="btn btn-primary"
+              type="button"
+              disabled
+            >
+              Descargar .md
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <!-- Notification toast -->
+      <div id="toast" class="toast" aria-live="polite"></div>
+    </div>
+
+    <script src="converter.js"></script>
+  </body>
+</html>
