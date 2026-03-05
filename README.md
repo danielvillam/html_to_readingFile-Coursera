@@ -1,6 +1,6 @@
-# HTML → Markdown Converter
+# HTML → Markdown & PDF Converter
 
-Una plataforma web estática que convierte el HTML de artículos de Coursera (generados con Astro) en archivos `.md` listos para descargar.
+Una plataforma web estática que convierte el HTML de artículos de Coursera (generados con Astro) en archivos `.md` o `.pdf` listos para descargar.
 
 ---
 
@@ -10,7 +10,7 @@ Al estudiar en Coursera, los materiales de lectura se presentan como páginas HT
 
 1. **Pegar** el HTML del artículo en el área de entrada.
 2. **Convertir** automáticamente el contenido a Markdown limpio.
-3. **Descargar** el archivo `.md` generado, con nombre derivado del título del artículo y frontmatter YAML incluido (`title` y `date`).
+3. **Descargar** como `.md` (con frontmatter YAML: `title` y `date`) o como `.pdf` con tipografía legible listo para imprimir o archivar.
 
 El objetivo es facilitar la creación de notas personales o materiales de estudio en formato Markdown, compatible con herramientas como Obsidian, Notion, Jekyll, etc.
 
@@ -73,7 +73,7 @@ https://danielvillam.github.io/html_to_readingFile-Coursera/
 2. Copia el HTML del artículo (inspecciona el elemento `<main>` o `<article>` con las DevTools).
 3. Pégalo en el área **Entrada HTML**.
 4. Pulsa **Convertir**.
-5. Revisa la vista previa y pulsa **Descargar .md**.
+4. Revisa la vista previa y pulsa **Descargar .md** o **Descargar .pdf**.
 
 ### En local
 
@@ -95,7 +95,7 @@ start index.html  # Windows
 html_to_readingFile-Coursera/
 ├── index.html      # Interfaz de usuario
 ├── style.css       # Estilos (CSS vanilla, sin dependencias)
-├── converter.js    # Lógica de conversión HTML → Markdown
+├── converter.js    # Lógica de conversión HTML → Markdown y generación de PDF
 └── README.md       # Este archivo
 ```
 
@@ -106,8 +106,8 @@ html_to_readingFile-Coursera/
 - **HTML5** — estructura semántica
 - **CSS3** — diseño minimalista con variables CSS y grid layout
 - **JavaScript (ES2020, vanilla)** — parsing con `DOMParser`, conversión recursiva y descarga con `Blob` + `URL.createObjectURL`
-
-Sin frameworks. Sin dependencias externas. Funciona completamente en el navegador.
+- **[marked.js](https://marked.js.org/)** (CDN) — renderiza Markdown → HTML para la exportación a PDF
+- **[html2pdf.js](https://ekoopmans.github.io/html2pdf.js/)** (CDN) — convierte el HTML renderizado a un PDF descargable (A4) mediante jsPDF + html2canvas
 
 ---
 
