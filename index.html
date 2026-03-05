@@ -17,14 +17,14 @@
       </header>
 
       <main class="main-content">
-        <!-- Input section -->
+        <!-- Input section (full width) -->
         <section class="panel input-panel">
           <label class="panel-label" for="html-input">
             Entrada HTML
           </label>
           <textarea
             id="html-input"
-            class="text-area"
+            class="text-area input-area"
             placeholder="Pega aquí el HTML del artículo..."
             spellcheck="false"
           ></textarea>
@@ -38,38 +38,62 @@
           </div>
         </section>
 
-        <!-- Output section -->
-        <section class="panel output-panel">
-          <label class="panel-label" for="md-output">
-            Vista previa Markdown
-          </label>
-          <textarea
-            id="md-output"
-            class="text-area"
-            placeholder="El Markdown generado aparecerá aquí..."
-            readonly
-            spellcheck="false"
-          ></textarea>
-          <div class="output-actions">
-            <span id="output-filename" class="filename-label"></span>
-            <button
-              id="download-btn"
-              class="btn btn-secondary"
-              type="button"
-              disabled
+        <!-- Two output panels side by side -->
+        <div class="output-grid">
+
+          <!-- Markdown preview -->
+          <section class="panel output-panel">
+            <label class="panel-label" for="md-output">
+              Vista previa <code>.md</code>
+            </label>
+            <textarea
+              id="md-output"
+              class="text-area preview-area"
+              placeholder="El Markdown aparecerá aquí después de convertir..."
+              readonly
+              spellcheck="false"
+            ></textarea>
+            <div class="output-actions">
+              <span id="output-filename" class="filename-label"></span>
+              <button
+                id="download-btn"
+                class="btn btn-primary"
+                type="button"
+                disabled
+              >
+                Descargar .md
+              </button>
+            </div>
+          </section>
+
+          <!-- PDF preview -->
+          <section class="panel output-panel">
+            <label class="panel-label">
+              Vista previa <code>.pdf</code>
+            </label>
+            <div
+              id="pdf-preview"
+              class="pdf-preview"
+              aria-label="Vista previa del PDF"
             >
-              Descargar .md
-            </button>
-            <button
-              id="download-pdf-btn"
-              class="btn btn-primary"
-              type="button"
-              disabled
-            >
-              Descargar .pdf
-            </button>
-          </div>
-        </section>
+              <p class="preview-placeholder">
+                La vista previa del PDF aparecerá aquí después de convertir...
+              </p>
+            </div>
+            <div class="output-actions">
+              <span id="pdf-filename" class="filename-label"></span>
+              <button
+                id="download-pdf-btn"
+                class="btn btn-primary"
+                type="button"
+                disabled
+              >
+                Descargar .pdf
+              </button>
+            </div>
+          </section>
+
+        </div>
       </main>
 
       <!-- Notification toast -->

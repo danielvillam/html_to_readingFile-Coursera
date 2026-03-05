@@ -276,6 +276,8 @@ function stripFrontmatter(md) {
   const downloadPdfBtn = document.getElementById("download-pdf-btn");
   const clearBtn = document.getElementById("clear-btn");
   const filenameLabel = document.getElementById("output-filename");
+  const pdfPreview = document.getElementById("pdf-preview");
+  const pdfFilenameLabel = document.getElementById("pdf-filename");
   const toast = document.getElementById("toast");
 
   let currentFilename = "";
@@ -297,7 +299,15 @@ function stripFrontmatter(md) {
 
       mdOutput.value = markdown;
       filenameLabel.textContent = filename;
-      downloadBtn.disabled = false;      downloadPdfBtn.disabled = false;
+
+      // Render markdown to HTML for the PDF preview
+      const renderedHtml = marked.parse(stripFrontmatter(markdown));
+      pdfPreview.innerHTML = renderedHtml;
+      pdfFilenameLabel.textContent = filename.replace(/\.md$/, ".pdf");
+
+      downloadBtn.disabled = false;
+      downloadPdfBtn.disabled = false;
+
       showToast("¡Conversión exitosa!");
     } catch (err) {
       console.error(err);
@@ -370,6 +380,8 @@ function stripFrontmatter(md) {
     htmlInput.value = "";
     mdOutput.value = "";
     filenameLabel.textContent = "";
+    pdfPreview.innerHTML = '<p class="preview-placeholder">La vista previa del PDF aparecerá aquí después de convertir...</p>';
+    pdfFilenameLabel.textContent = "";
     currentMarkdown = "";
     currentFilename = "";
     downloadBtn.disabled = true;

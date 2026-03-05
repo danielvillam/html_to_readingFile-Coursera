@@ -82,16 +82,22 @@ code {
 }
 
 /* =========================================================
-   Main two-column grid
+   Main layout: input row on top, two previews below
    ========================================================= */
 .main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.output-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
 }
 
-@media (max-width: 768px) {
-  .main-content {
+@media (max-width: 860px) {
+  .output-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -131,10 +137,19 @@ code {
   border-radius: var(--radius);
   resize: vertical;
   width: 100%;
-  min-height: 420px;
   padding: 0.85rem 1rem;
   outline: none;
   transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Input textarea: shorter since it sits above two panels */
+.input-area {
+  min-height: 200px;
+}
+
+/* Preview textareas: taller for comfortable reading */
+.preview-area {
+  min-height: 440px;
 }
 
 .text-area:focus {
@@ -217,6 +232,118 @@ code {
 .btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* =========================================================
+   PDF preview panel
+   ========================================================= */
+.pdf-preview {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  min-height: 440px;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 1.75rem 2rem;
+  flex: 1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #111;
+  /* Subtle paper shadow */
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.pdf-preview .preview-placeholder {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Typography inside rendered PDF preview */
+.pdf-preview h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid #e5e7eb;
+  line-height: 1.3;
+}
+
+.pdf-preview h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 1.6rem 0 0.5rem;
+  color: #1e293b;
+}
+
+.pdf-preview h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.2rem 0 0.4rem;
+  color: #334155;
+}
+
+.pdf-preview p {
+  margin: 0 0 0.9rem;
+}
+
+.pdf-preview ol,
+.pdf-preview ul {
+  margin: 0 0 0.9rem 1.5rem;
+}
+
+.pdf-preview li {
+  margin-bottom: 0.3rem;
+}
+
+.pdf-preview strong {
+  font-weight: 700;
+}
+
+.pdf-preview em {
+  font-style: italic;
+}
+
+.pdf-preview code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: var(--color-code-bg);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+.pdf-preview pre {
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  margin: 0 0 1rem;
+}
+
+.pdf-preview pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.8em;
+}
+
+.pdf-preview blockquote {
+  border-left: 3px solid var(--color-primary);
+  margin: 0 0 0.9rem;
+  padding: 0.3rem 0 0.3rem 1rem;
+  color: #475569;
+}
+
+.pdf-preview hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 1.2rem 0;
+}
+
+.pdf-preview a {
+  color: var(--color-primary);
 }
 
 /* =========================================================
