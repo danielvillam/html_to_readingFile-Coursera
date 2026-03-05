@@ -252,6 +252,19 @@ function slugify(text) {
 }
 
 /* =========================================================
+   Helpers
+   ========================================================= */
+
+/**
+ * Strips the YAML frontmatter block from a Markdown string.
+ * @param {string} md
+ * @returns {string}
+ */
+function stripFrontmatter(md) {
+  return md.replace(/^---[\s\S]*?---\n?/, "").trim();
+}
+
+/* =========================================================
    UI logic
    ========================================================= */
 
@@ -260,6 +273,7 @@ function slugify(text) {
   const mdOutput = document.getElementById("md-output");
   const convertBtn = document.getElementById("convert-btn");
   const downloadBtn = document.getElementById("download-btn");
+  const downloadPdfBtn = document.getElementById("download-pdf-btn");
   const clearBtn = document.getElementById("clear-btn");
   const filenameLabel = document.getElementById("output-filename");
   const toast = document.getElementById("toast");
@@ -283,8 +297,7 @@ function slugify(text) {
 
       mdOutput.value = markdown;
       filenameLabel.textContent = filename;
-      downloadBtn.disabled = false;
-
+      downloadBtn.disabled = false;      downloadPdfBtn.disabled = false;
       showToast("¡Conversión exitosa!");
     } catch (err) {
       console.error(err);
@@ -292,7 +305,7 @@ function slugify(text) {
     }
   });
 
-  // ── Download ──────────────────────────────────────────────
+  // ── Download .md ──────────────────────────────────────────────
   downloadBtn.addEventListener("click", () => {
     if (!currentMarkdown) return;
 
@@ -307,6 +320,51 @@ function slugify(text) {
     showToast(`Descargando ${currentFilename}`);
   });
 
+  // ── Download .pdf ──────────────────────────────────────
+  downloadPdfBtn.addEventListener("click", () => {
+    if (!currentMarkdown) return;
+
+    const pdfFilename = currentFilename.replace(/\.md$/, ".pdf");
+    const mdBody = stripFrontmatter(currentMarkdown);
+    const bodyHtml = marked.parse(mdBody);
+
+    // Build a styled container for html2pdf to render
+    const container = document.createElement("div");
+    container.innerHTML = bodyHtml;
+    container.style.cssText = [
+      "font-family: Georgia, 'Times New Roman', serif",
+      "font-size: 12pt",
+      "line-height: 1.75",
+      "color: #111",
+      "max-width: 170mm",
+      "padding: 0",
+    ].join(";");
+    document.body.appendChild(container);
+
+    showToast("Generando PDF...");
+
+    html2pdf()
+      .set({
+        margin: [18, 18, 18, 18],
+        filename: pdfFilename,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+      })
+      .from(container)
+      .save()
+      .then(() => {
+        document.body.removeChild(container);
+        showToast(`Descargando ${pdfFilename}`);
+      })
+      .catch((err) => {
+        console.error(err);
+        document.body.removeChild(container);
+        showToast("Error al generar el PDF.", true);
+      });
+  });
+
   // ── Clear ─────────────────────────────────────────────────
   clearBtn.addEventListener("click", () => {
     htmlInput.value = "";
@@ -315,6 +373,7 @@ function slugify(text) {
     currentMarkdown = "";
     currentFilename = "";
     downloadBtn.disabled = true;
+    downloadPdfBtn.disabled = true;
     htmlInput.focus();
   });
 
