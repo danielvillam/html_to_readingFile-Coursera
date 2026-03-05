@@ -292,27 +292,41 @@ function stripFrontmatter(md) {
       return;
     }
 
+    // ── Step 1: HTML → Markdown (always runs independently) ──
+    let markdown, filename;
     try {
-      const { markdown, filename } = convertHtmlToMarkdown(raw);
-      currentMarkdown = markdown;
-      currentFilename = filename;
+      ({ markdown, filename } = convertHtmlToMarkdown(raw));
+    } catch (err) {
+      console.error(err);
+      showToast("Error al convertir el HTML. Verifica la estructura.", true);
+      return;
+    }
 
-      mdOutput.value = markdown;
-      filenameLabel.textContent = filename;
+    currentMarkdown = markdown;
+    currentFilename = filename;
 
-      // Render markdown to HTML for the PDF preview
+    // Populate Markdown preview
+    mdOutput.value = markdown;
+    filenameLabel.textContent = filename;
+    downloadBtn.disabled = false;
+
+    // ── Step 2: Markdown → HTML for PDF preview (independent) ──
+    try {
+      if (typeof marked === "undefined") {
+        throw new Error("La librería 'marked' no está disponible (verifica la conexión a internet).");
+      }
       const renderedHtml = marked.parse(stripFrontmatter(markdown));
       pdfPreview.innerHTML = renderedHtml;
       pdfFilenameLabel.textContent = filename.replace(/\.md$/, ".pdf");
-
-      downloadBtn.disabled = false;
       downloadPdfBtn.disabled = false;
-
-      showToast("¡Conversión exitosa!");
-    } catch (err) {
-      console.error(err);
-      showToast("Error al convertir. Verifica el HTML.", true);
+    } catch (pdfErr) {
+      console.error(pdfErr);
+      pdfPreview.innerHTML = `<p class="preview-error">⚠️ No se pudo generar la vista previa del PDF: ${pdfErr.message}</p>`;
+      pdfFilenameLabel.textContent = "";
+      downloadPdfBtn.disabled = true;
     }
+
+    showToast("¡Conversión exitosa!");
   });
 
   // ── Download .md ──────────────────────────────────────────────
