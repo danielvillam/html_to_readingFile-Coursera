@@ -4,105 +4,145 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HTML → Markdown &amp; PDF Converter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <header class="site-header">
-        <h1 class="site-title">HTML → Markdown &amp; PDF Converter</h1>
-        <p class="site-subtitle">
-          Pega el HTML de un artículo de Coursera y descárgalo como
-          <code>.md</code> o <code>.pdf</code>
+
+    <!-- ===== Top navigation bar ===== -->
+    <nav class="topbar">
+      <div class="topbar-inner">
+        <span class="topbar-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+          <strong>ReadingConverter</strong>
+        </span>
+        <span class="topbar-badge">Coursera → Markdown &amp; PDF</span>
+      </div>
+    </nav>
+
+    <div class="page-wrapper">
+
+      <!-- ===== Hero header ===== -->
+      <header class="hero">
+        <h1 class="hero-title">
+          Convierte lecturas de
+          <span class="hero-highlight">Coursera</span>
+          a
+          <span class="hero-highlight">.md</span>
+          y
+          <span class="hero-highlight">.pdf</span>
+        </h1>
+        <p class="hero-subtitle">
+          Pega el HTML del artículo, presiona <strong>Convertir</strong> y descarga tu archivo. Sin instalaciones, sin registro.
         </p>
       </header>
 
       <main class="main-content">
-        <!-- Input section (full width) -->
-        <section class="panel input-panel">
-          <label class="panel-label" for="html-input">
-            Entrada HTML
-          </label>
-          <textarea
-            id="html-input"
-            class="text-area input-area"
-            placeholder="Pega aquí el HTML del artículo..."
-            spellcheck="false"
-          ></textarea>
-          <div class="input-actions">
-            <button id="clear-btn" class="btn btn-secondary" type="button">
+
+        <!-- ===== Input card ===== -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-header-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </span>
+            <span class="card-header-title">Entrada HTML</span>
+          </div>
+          <div class="card-body">
+            <textarea
+              id="html-input"
+              class="text-area input-area"
+              placeholder="Pega aquí el código HTML del artículo de Coursera..."
+              spellcheck="false"
+            ></textarea>
+          </div>
+          <div class="card-footer">
+            <button id="clear-btn" class="btn btn-ghost" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
               Limpiar
             </button>
             <button id="convert-btn" class="btn btn-primary" type="button">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
               Convertir
             </button>
           </div>
-        </section>
+        </div>
 
-        <!-- Two output panels side by side -->
+        <!-- ===== Output grid ===== -->
         <div class="output-grid">
 
-          <!-- Markdown preview -->
-          <section class="panel output-panel">
-            <label class="panel-label" for="md-output">
-              Vista previa <code>.md</code>
-            </label>
-            <textarea
-              id="md-output"
-              class="text-area preview-area"
-              placeholder="El Markdown aparecerá aquí después de convertir..."
-              readonly
-              spellcheck="false"
-            ></textarea>
-            <div class="output-actions">
-              <span id="output-filename" class="filename-label"></span>
-              <button
-                id="download-btn"
-                class="btn btn-primary"
-                type="button"
-                disabled
-              >
+          <!-- Markdown preview card -->
+          <div class="card">
+            <div class="card-header card-header--md">
+              <span class="card-header-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </span>
+              <span class="card-header-title">Vista previa <code>.md</code></span>
+            </div>
+            <div class="card-body">
+              <textarea
+                id="md-output"
+                class="text-area preview-area"
+                placeholder="El Markdown aparece aquí tras convertir..."
+                readonly
+                spellcheck="false"
+              ></textarea>
+            </div>
+            <div class="card-footer">
+              <span id="output-filename" class="filename-chip"></span>
+              <button id="download-btn" class="btn btn-success" type="button" disabled>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Descargar .md
               </button>
             </div>
-          </section>
+          </div>
 
-          <!-- PDF preview -->
-          <section class="panel output-panel">
-            <label class="panel-label">
-              Vista previa <code>.pdf</code>
-            </label>
-            <div
-              id="pdf-preview"
-              class="pdf-preview"
-              aria-label="Vista previa del PDF"
-            >
-              <p class="preview-placeholder">
-                La vista previa del PDF aparecerá aquí después de convertir...
-              </p>
+          <!-- PDF preview card -->
+          <div class="card">
+            <div class="card-header card-header--pdf">
+              <span class="card-header-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6"/><path d="M9 17h6"/><path d="M9 9h1"/></svg>
+              </span>
+              <span class="card-header-title">Vista previa <code>.pdf</code></span>
             </div>
-            <div class="output-actions">
-              <span id="pdf-filename" class="filename-label"></span>
-              <button
-                id="download-pdf-btn"
-                class="btn btn-primary"
-                type="button"
-                disabled
+            <div class="card-body">
+              <div
+                id="pdf-preview"
+                class="pdf-preview"
+                aria-label="Vista previa del PDF"
               >
+                <p class="preview-placeholder">
+                  La vista previa del PDF aparecerá aquí después de convertir...
+                </p>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span id="pdf-filename" class="filename-chip"></span>
+              <button id="download-pdf-btn" class="btn btn-danger" type="button" disabled>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Descargar .pdf
               </button>
             </div>
-          </section>
+          </div>
 
         </div>
       </main>
 
-      <!-- Notification toast -->
-      <div id="toast" class="toast" aria-live="polite"></div>
+      <footer class="site-footer">
+        Desarrollado por <a href="https://github.com/danielvillam" target="_blank" rel="noopener">Daniel Villa</a> &middot; Código abierto en
+        <a href="https://github.com/danielvillam/html_to_readingFile-Coursera" target="_blank" rel="noopener">GitHub</a>
+      </footer>
+
     </div>
 
-    <!-- marked: Markdown → HTML renderer (used for PDF export) -->
+    <!-- Toast -->
+    <div id="toast" class="toast" aria-live="polite"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
-    <!-- html2pdf: HTML → PDF generator (bundles jsPDF + html2canvas) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="converter.js"></script>
   </body>
